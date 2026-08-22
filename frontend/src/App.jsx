@@ -5,6 +5,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Unauthorized from './pages/errors/Unauthorized';
+import Notifications from './pages/common/Notifications';
 import EmployeeDashboard from './pages/employee/Dashboard';
 import EmployeeProfile from './pages/employee/Profile';
 import EmployeeAttendance from './pages/employee/Attendance';
@@ -14,6 +15,8 @@ import AdminLeaveRequests from './pages/admin/LeaveRequests';
 import AdminPayroll from './pages/admin/Payroll';
 import AdminEmployees from './pages/admin/Employees';
 import AdminAttendance from './pages/admin/Attendance';
+import AdminReports from './pages/admin/Reports';
+import AdminSettings from './pages/admin/Settings';
 
 
 
@@ -34,7 +37,7 @@ const App = () => {
             <Route index element={<EmployeeDashboard />} />
             
             {/* Common Routes */}
-            <Route path="notifications" element={<div>Notifications Page</div>} />
+            <Route path="notifications" element={<Notifications />} />
             <Route path="profile" element={<EmployeeProfile />} />
             
             {/* Employee Routes (Default role) */}
@@ -63,9 +66,14 @@ const App = () => {
                 <AdminPayroll />
               </ProtectedRoute>
             } />
+            <Route path="admin/settings" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminSettings />
+              </ProtectedRoute>
+            } />
             <Route path="admin/reports" element={
               <ProtectedRoute requiredRole="admin">
-                <div>Admin Reports</div>
+                <AdminReports />
               </ProtectedRoute>
             } />
             
