@@ -29,6 +29,12 @@ const AdminPayroll = () => {
     deductions: ''
   });
 
+  const openAddModal = () => {
+    setError(null);
+    setSuccess(null);
+    setShowAddModal(true);
+  };
+
   const fetchData = async () => {
     try {
       const [payrollData, employeeData] = await Promise.all([
@@ -153,7 +159,8 @@ const AdminPayroll = () => {
         </div>
 
         <button
-          onClick={() => setShowAddModal(true)}
+          type="button"
+          onClick={openAddModal}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors shadow-sm font-medium"
         >
           <Plus size={18} />
@@ -259,7 +266,7 @@ const AdminPayroll = () => {
 
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            <div className="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
               <form onSubmit={handleAddSubmit}>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
