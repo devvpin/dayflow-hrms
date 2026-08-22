@@ -9,6 +9,7 @@ import EmployeeDashboard from './pages/employee/Dashboard';
 import EmployeeProfile from './pages/employee/Profile';
 import EmployeeAttendance from './pages/employee/Attendance';
 import EmployeeLeaves from './pages/employee/Leaves';
+import AdminLeaveRequests from './pages/admin/LeaveRequests';
 
 
 
@@ -50,7 +51,7 @@ const App = () => {
             } />
             <Route path="admin/leaves" element={
               <ProtectedRoute requiredRole="admin">
-                <div>Admin Leave Requests</div>
+                <AdminLeaveRequests />
               </ProtectedRoute>
             } />
             <Route path="admin/payroll" element={
