@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Settings as SettingsIcon, Building, Shield, Bell, Save, CheckCircle } from 'lucide-react';
+import api from '../../services/api';
 
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState('company');
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState('');
 
-  // Mock settings state
-  import api from '../../services/api';
-
+  // Global settings state
   const [companySettings, setCompanySettings] = useState({
     name: '',
     email: '',
@@ -24,12 +23,10 @@ const AdminSettings = () => {
 
   const [loading, setLoading] = useState(true);
 
-  import { useEffect } from 'react';
-
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await api.get('/settings');
+        const response = await api.get('/api/settings');
         setCompanySettings({
           name: response.data.company_name,
           email: response.data.company_email,
@@ -68,7 +65,7 @@ const AdminSettings = () => {
     setSuccess('');
 
     try {
-      await api.put('/settings', {
+      await api.put('/api/settings', {
         company_name: companySettings.name,
         company_email: companySettings.email,
         company_address: companySettings.address,
@@ -113,8 +110,8 @@ const AdminSettings = () => {
             <button
               onClick={() => setActiveTab('company')}
               className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'company'
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                ? 'bg-primary/10 text-primary'
+                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`}
             >
               <Building size={18} />
@@ -123,8 +120,8 @@ const AdminSettings = () => {
             <button
               onClick={() => setActiveTab('system')}
               className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'system'
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                ? 'bg-primary/10 text-primary'
+                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`}
             >
               <Shield size={18} />
@@ -133,8 +130,8 @@ const AdminSettings = () => {
             <button
               onClick={() => setActiveTab('notifications')}
               className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'notifications'
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                ? 'bg-primary/10 text-primary'
+                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`}
             >
               <Bell size={18} />

@@ -91,7 +91,7 @@ const Leaves = () => {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const diffTime = Math.abs(endDate - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     return diffDays;
   };
 
@@ -207,7 +207,7 @@ const Leaves = () => {
                       Apply for Leave
                     </h3>
                     <div className="mt-4">
-                      
+
                       {error && showApplyModal && (
                         <div className="mb-4 bg-red-50 text-red-600 p-3 rounded-md text-sm border border-red-100 flex items-center gap-2">
                           <XCircle size={16} />
@@ -229,7 +229,7 @@ const Leaves = () => {
                             <option value="UNPAID">Unpaid Leave</option>
                           </select>
                         </div>
-                        
+
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700">Start Date</label>
