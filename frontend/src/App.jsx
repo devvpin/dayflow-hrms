@@ -9,7 +9,9 @@ import EmployeeDashboard from './pages/employee/Dashboard';
 import EmployeeProfile from './pages/employee/Profile';
 import EmployeeAttendance from './pages/employee/Attendance';
 import EmployeeLeaves from './pages/employee/Leaves';
+import EmployeePayroll from './pages/employee/Payroll';
 import AdminLeaveRequests from './pages/admin/LeaveRequests';
+import AdminPayroll from './pages/admin/Payroll';
 
 
 
@@ -36,7 +38,7 @@ const App = () => {
             {/* Employee Routes (Default role) */}
             <Route path="attendance" element={<EmployeeAttendance />} />
             <Route path="leave" element={<EmployeeLeaves />} />
-            <Route path="payroll" element={<div>Employee Payroll</div>} />
+            <Route path="payroll" element={<EmployeePayroll />} />
             
             {/* Admin Routes */}
             <Route path="admin/employees" element={
@@ -56,7 +58,7 @@ const App = () => {
             } />
             <Route path="admin/payroll" element={
               <ProtectedRoute requiredRole="admin">
-                <div>Admin Payroll</div>
+                <AdminPayroll />
               </ProtectedRoute>
             } />
             <Route path="admin/reports" element={
