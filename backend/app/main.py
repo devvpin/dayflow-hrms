@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.core.config import settings
 from app.core.exceptions import sqlalchemy_exception_handler
 from app.routers import auth, employees, attendance, leaves, payroll, notifications, dashboard
+from app.routers import settings as settings_module
 
 app = FastAPI(title="Dayflow HRMS")
 app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
@@ -23,6 +24,7 @@ app.include_router(leaves.router, prefix="/api/leaves", tags=["leaves"])
 app.include_router(payroll.router, prefix="/api/payroll", tags=["payroll"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["notifications"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["dashboard"])
+app.include_router(settings_module.router, prefix="/api/settings", tags=["settings"])
 
 @app.get("/api/health")
 async def health_check():

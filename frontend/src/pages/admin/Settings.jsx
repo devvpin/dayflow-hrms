@@ -7,11 +7,13 @@ const AdminSettings = () => {
   const [success, setSuccess] = useState('');
 
   // Mock settings state
+  import api from '../../services/api';
+
   const [companySettings, setCompanySettings] = useState({
-    name: 'Dayflow Inc.',
-    email: 'contact@dayflow.com',
-    address: '123 Business Avenue, Tech District',
-    workingHours: '09:00 - 18:00'
+    name: '',
+    email: '',
+    address: '',
+    workingHours: ''
   });
 
   const [systemSettings, setSystemSettings] = useState({
@@ -19,6 +21,32 @@ const AdminSettings = () => {
     requireApprovalForLeaves: true,
     maintenanceMode: false
   });
+
+  const [loading, setLoading] = useState(true);
+
+  import { useEffect } from 'react';
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await api.get('/settings');
+        setCompanySettings({
+          name: response.data.company_name,
+          email: response.data.company_email,
+          address: response.data.company_address,
+          workingHours: response.data.working_hours
+        });
+        setSystemSettings({
+          allowEmployeeRegistration: response.data.allow_employee_registration,
+          requireApprovalForLeaves: response.data.require_approval_for_leaves,
+          maintenanceMode: response.data.maintenance_mode
+        });
+      } catch (err) {
+        console.error("Failed to load settings:", err);
+      } finally { setLoading(false); }
+    };
+    fetchSettings();
+  }, []);
 
   const handleCompanyChange = (e) => {
     setCompanySettings({
@@ -34,17 +62,28 @@ const AdminSettings = () => {
     });
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
     setSuccess('');
-    
-    // Simulate API call
-    setTimeout(() => {
-      setSaving(false);
+
+    try {
+      await api.put('/settings', {
+        company_name: companySettings.name,
+        company_email: companySettings.email,
+        company_address: companySettings.address,
+        working_hours: companySettings.workingHours,
+        allow_employee_registration: systemSettings.allowEmployeeRegistration,
+        require_approval_for_leaves: systemSettings.requireApprovalForLeaves,
+        maintenance_mode: systemSettings.maintenanceMode
+      });
       setSuccess('Settings saved successfully.');
       setTimeout(() => setSuccess(''), 3000);
-    }, 800);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -67,39 +106,36 @@ const AdminSettings = () => {
       )}
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row">
-        
+
         {/* Settings Sidebar */}
         <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50/50">
           <nav className="flex md:flex-col space-x-1 md:space-x-0 md:space-y-1 p-4 overflow-x-auto">
             <button
               onClick={() => setActiveTab('company')}
-              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
-                activeTab === 'company' 
-                  ? 'bg-primary/10 text-primary' 
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'company'
+                  ? 'bg-primary/10 text-primary'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
+                }`}
             >
               <Building size={18} />
               Company Info
             </button>
             <button
               onClick={() => setActiveTab('system')}
-              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
-                activeTab === 'system' 
-                  ? 'bg-primary/10 text-primary' 
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'system'
+                  ? 'bg-primary/10 text-primary'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
+                }`}
             >
               <Shield size={18} />
               System Config
             </button>
             <button
               onClick={() => setActiveTab('notifications')}
-              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
-                activeTab === 'notifications' 
-                  ? 'bg-primary/10 text-primary' 
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${activeTab === 'notifications'
+                  ? 'bg-primary/10 text-primary'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
+                }`}
             >
               <Bell size={18} />
               Notifications
@@ -110,14 +146,14 @@ const AdminSettings = () => {
         {/* Settings Content */}
         <div className="flex-1 p-6 sm:p-8">
           <form onSubmit={handleSave}>
-            
+
             {activeTab === 'company' && (
               <div className="space-y-6 max-w-xl">
                 <div>
                   <h2 className="text-lg font-medium text-gray-900">Company Information</h2>
                   <p className="text-sm text-gray-500 mt-1">Details displayed on reports and invoices.</p>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Company Name</label>
@@ -145,7 +181,7 @@ const AdminSettings = () => {
                   <h2 className="text-lg font-medium text-gray-900">System Configuration</h2>
                   <p className="text-sm text-gray-500 mt-1">Manage core HRMS behaviors and access.</p>
                 </div>
-                
+
                 <div className="space-y-4 divide-y divide-gray-100">
                   <div className="flex items-center justify-between py-3">
                     <div>
@@ -189,7 +225,7 @@ const AdminSettings = () => {
                   <h2 className="text-lg font-medium text-gray-900">Notification Preferences</h2>
                   <p className="text-sm text-gray-500 mt-1">Configure automated alerts and emails.</p>
                 </div>
-                
+
                 <div className="bg-blue-50 border border-blue-100 p-4 rounded-md text-sm text-blue-700">
                   Email integration is currently configured via environment variables. Contact DevOps to update SMTP credentials.
                 </div>
@@ -206,7 +242,7 @@ const AdminSettings = () => {
                 {saving ? 'Saving...' : 'Save Configuration'}
               </button>
             </div>
-            
+
           </form>
         </div>
       </div>
