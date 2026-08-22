@@ -1,0 +1,832 @@
+﻿alembic : INFO  [alemb
+ic.runtime.migration] 
+Context impl 
+PostgresqlImpl.
+At line:1 char:70
++ ... ipts\activate; 
+$env:PYTHONPATH="."; 
+alembic upgrade head 
+2>&1 | Out-F ...
++                     
+                    ~~
+~~~~~~~~~~~~~~~~~~~~~~
+~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (INFO  [ale   
+ mbic....Postgresq    
+lImpl.:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+INFO  [alembic.runtime
+.migration] Will 
+assume transactional 
+DDL.
+INFO  [alembic.runtime
+.migration] Running 
+upgrade 5d040899e9ab 
+-> dc26dfb63281, 
+create_models
+Traceback (most 
+recent call last):
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+550, in 
+_prepare_and_execute
+    self._rows = 
+deque(await prepared_s
+tmt.fetch(*parameters)
+)
+                      
+ ^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\asyncpg\p
+repared_stmt.py", 
+line 177, in fetch
+    data = await self.
+__bind_execute(args, 
+0, timeout)
+           ^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\asyncpg\p
+repared_stmt.py", 
+line 268, in 
+__bind_execute
+    data, status, _ = 
+await 
+self.__do_execute(
+                      
+^^^^^^^^^^^^^^^^^^^^^^
+^^
+        lambda 
+protocol: 
+protocol.bind_execute(
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^
+            
+self._state, args, 
+'', limit, True, 
+timeout))
+            ^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\asyncpg\p
+repared_stmt.py", 
+line 257, in 
+__do_execute
+    return await 
+executor(protocol)
+           ^^^^^^^^^^^
+^^^^^^^^^^^^^
+  File "asyncpg/protoc
+ol/protocol.pyx", 
+line 205, in 
+bind_execute
+asyncpg.exceptions.Dup
+licateObjectError: 
+type "leavetype" 
+already exists
+
+The above exception 
+was the direct cause 
+of the following 
+exception:
+
+Traceback (most 
+recent call last):
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1969, in 
+_exec_single_context
+    self.dialect.do_ex
+ecute(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~^
+        cursor, 
+str_statement, 
+effective_parameters, 
+context
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\default.py", 
+line 952, in 
+do_execute
+    cursor.execute(sta
+tement, parameters)
+    ~~~~~~~~~~~~~~^^^^
+^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+585, in execute
+    self._adapt_connec
+tion.await_(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~^
+        self._prepare_
+and_execute(operation,
+ parameters)
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\_concurrency_py
+3k.py", line 132, in 
+await_only
+    return current.par
+ent.switch(awaitable) 
+ # type: ignore[no-any
+-return,attr-defined] 
+# noqa: E501
+           ~~~~~~~~~~~
+~~~~~~~~~~^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\_concurrency_py
+3k.py", line 196, in 
+greenlet_spawn
+    value = await 
+result
+            
+^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+563, in 
+_prepare_and_execute
+    self._handle_excep
+tion(error)
+    ~~~~~~~~~~~~~~~~~~
+~~~~^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+513, in 
+_handle_exception
+    self._adapt_connec
+tion._handle_exception
+(error)
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+797, in 
+_handle_exception
+    raise 
+translated_error from 
+error
+sqlalchemy.dialects.po
+stgresql.asyncpg.Async
+Adapt_asyncpg_dbapi.Pr
+ogrammingError: 
+<class 'asyncpg.except
+ions.DuplicateObjectEr
+ror'>: type 
+"leavetype" already 
+exists
+
+The above exception 
+was the direct cause 
+of the following 
+exception:
+
+Traceback (most 
+recent call last):
+  File "<frozen 
+runpy>", line 203, in 
+_run_module_as_main
+  File "<frozen 
+runpy>", line 88, in 
+_run_code
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Scrip
+ts\alembic.exe\__main_
+_.py", line 5, in 
+<module>
+    sys.exit(main())
+             ~~~~^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\c
+onfig.py", line 1039, 
+in main
+    CommandLine(prog=p
+rog).main(argv=argv)
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\c
+onfig.py", line 1029, 
+in main
+    self.run_cmd(cfg, 
+options)
+    ~~~~~~~~~~~~^^^^^^
+^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\c
+onfig.py", line 963, 
+in run_cmd
+    fn(
+    ~~^
+        config,
+        ^^^^^^^
+        
+*[getattr(options, k, 
+None) for k in 
+positional],
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+        **{k: 
+getattr(options, k, 
+None) for k in kwarg},
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\c
+ommand.py", line 487, 
+in upgrade
+    script.run_env()
+    ~~~~~~~~~~~~~~^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\s
+cript\base.py", line 
+550, in run_env
+    util.load_python_f
+ile(self.dir, 
+"env.py")
+    ~~~~~~~~~~~~~~~~~~
+~~~^^^^^^^^^^^^^^^^^^^
+^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\u
+til\pyfiles.py", line 
+114, in 
+load_python_file
+    module = load_modu
+le_py(module_id, path)
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\u
+til\pyfiles.py", line 
+132, in load_module_py
+    spec.loader.exec_m
+odule(module)  # 
+type: ignore
+    ~~~~~~~~~~~~~~~~~~
+~~~~~^^^^^^^^
+  File "<frozen import
+lib._bootstrap_externa
+l>", line 1023, in 
+exec_module
+  File "<frozen import
+lib._bootstrap>", 
+line 488, in _call_wit
+h_frames_removed
+  File "D:\odoo-nmit\d
+ayflow-hrms\backend\al
+embic\env.py", line 
+58, in <module>
+    run_migrations_onl
+ine()
+    ~~~~~~~~~~~~~~~~~~
+~~~^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\backend\al
+embic\env.py", line 
+53, in 
+run_migrations_online
+    asyncio.run(run_as
+ync_migrations())
+    ~~~~~~~~~~~^^^^^^^
+^^^^^^^^^^^^^^^^^
+  File "C:\Program Fil
+es\WindowsApps\PythonS
+oftwareFoundation.Pyth
+on.3.13_3.13.3824.0_x6
+4__qbz5n2kfra8p0\Lib\a
+syncio\runners.py", 
+line 196, in run
+    return 
+runner.run(main)
+           
+~~~~~~~~~~^^^^^^
+  File "C:\Program Fil
+es\WindowsApps\PythonS
+oftwareFoundation.Pyth
+on.3.13_3.13.3824.0_x6
+4__qbz5n2kfra8p0\Lib\a
+syncio\runners.py", 
+line 119, in run
+    return self._loop.
+run_until_complete(tas
+k)
+           ~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~^^^^
+^^
+  File "C:\Program Fil
+es\WindowsApps\PythonS
+oftwareFoundation.Pyth
+on.3.13_3.13.3824.0_x6
+4__qbz5n2kfra8p0\Lib\a
+syncio\base_events.py"
+, line 725, in 
+run_until_complete
+    return 
+future.result()
+           
+~~~~~~~~~~~~~^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\backend\al
+embic\env.py", line 
+49, in 
+run_async_migrations
+    await connection.r
+un_sync(do_run_migrati
+ons)
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\ext\asyncio\engine.p
+y", line 888, in 
+run_sync
+    return await 
+greenlet_spawn(
+           
+^^^^^^^^^^^^^^^^^^^^^
+        fn, 
+self._proxied, *arg, 
+_require_await=False, 
+**kw
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\_concurrency_py
+3k.py", line 203, in 
+greenlet_spawn
+    result = 
+context.switch(value)
+  File "D:\odoo-nmit\d
+ayflow-hrms\backend\al
+embic\env.py", line 
+38, in 
+do_run_migrations
+    context.run_migrat
+ions()
+    ~~~~~~~~~~~~~~~~~~
+~~~~^^
+  File "<string>", 
+line 8, in 
+run_migrations
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\r
+untime\environment.py"
+, line 967, in 
+run_migrations
+    self.get_context()
+.run_migrations(**kw)
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\r
+untime\migration.py", 
+line 621, in 
+run_migrations
+    step.migration_fn(
+**kw)
+    ~~~~~~~~~~~~~~~~~^
+^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\backend\al
+embic\versions\dc26dfb
+63281_create_models.py
+", line 61, in upgrade
+    op.create_table('l
+eave_requests',
+    ~~~~~~~~~~~~~~~^^^
+^^^^^^^^^^^^^^^
+    sa.Column('id', 
+sa.Integer(), 
+nullable=False),
+    ^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^
+    ...<10 lines>...
+    sa.PrimaryKeyConst
+raint('id')
+    ^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^
+    )
+    ^
+  File "<string>", 
+line 8, in 
+create_table
+  File "<string>", 
+line 3, in 
+create_table
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\o
+perations\ops.py", 
+line 1323, in 
+create_table
+    return 
+operations.invoke(op)
+           
+~~~~~~~~~~~~~~~~~^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\o
+perations\base.py", 
+line 448, in invoke
+    return fn(self, 
+operation)
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\o
+perations\toimpl.py", 
+line 140, in 
+create_table
+    operations.impl.cr
+eate_table(table, 
+**kw)
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~^^^^^^^^^^^^
+^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\alembic\d
+dl\impl.py", line 
+431, in create_table
+    table.dispatch.bef
+ore_create(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~^
+        table, 
+self.connection, 
+checkfirst=False, 
+_ddl_runner=self
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\event\attr.py", 
+line 516, in __call__
+    fn(*args, **kw)
+    ~~^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\langhelpers.py"
+, line 833, in 
+__call__
+    return 
+getattr(self.target, 
+self.name)(*arg, **kw)
+           ~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~^^
+^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\sql\sqltypes.py", 
+line 1157, in 
+_on_table_create
+    t._on_table_create
+(target, bind, **kw)
+    ~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+named_types.py", line 
+113, in 
+_on_table_create
+    self.create(bind=b
+ind, 
+checkfirst=checkfirst)
+    ~~~~~~~~~~~^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+named_types.py", line 
+369, in create
+    
+super().create(bind, 
+checkfirst=checkfirst)
+    ~~~~~~~~~~~~~~^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+named_types.py", line 
+56, in create
+    bind._run_ddl_visi
+tor(self.DDLGenerator,
+ self, 
+checkfirst=checkfirst)
+    ~~~~~~~~~~~~~~~~~~
+~~~^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 2469, in 
+_run_ddl_visitor
+    ).traverse_single(
+element)
+      ~~~~~~~~~~~~~~~^
+^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\sql\visitors.py", 
+line 661, in 
+traverse_single
+    return meth(obj, 
+**kw)
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+named_types.py", line 
+186, in visit_enum
+    self.connection.ex
+ecute(CreateEnumType(e
+num))
+    ~~~~~~~~~~~~~~~~~~
+~~~~~^^^^^^^^^^^^^^^^^
+^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1421, in execute
+    return meth(
+        self,
+        
+distilled_parameters,
+        
+execution_options or 
+NO_OPTIONS,
+    )
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\sql\ddl.py", line 
+188, in 
+_execute_on_connection
+    return connection.
+_execute_ddl(
+           ~~~~~~~~~~~
+~~~~~~~~~~~~^
+        self, 
+distilled_params, 
+execution_options
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1532, in 
+_execute_ddl
+    ret = 
+self._execute_context(
+        dialect,
+    ...<4 lines>...
+        compiled,
+    )
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1848, in 
+_execute_context
+    return self._exec_
+single_context(
+           ~~~~~~~~~~~
+~~~~~~~~~~~~~~^
+        dialect, 
+context, statement, 
+parameters
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1988, in 
+_exec_single_context
+    self._handle_dbapi
+_exception(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~^
+        e, 
+str_statement, 
+effective_parameters, 
+cursor, context
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 2365, in _handle_
+dbapi_exception
+    raise sqlalchemy_e
+xception.with_tracebac
+k(exc_info[2]) from e
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\base.py", 
+line 1969, in 
+_exec_single_context
+    self.dialect.do_ex
+ecute(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~^
+        cursor, 
+str_statement, 
+effective_parameters, 
+context
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\engine\default.py", 
+line 952, in 
+do_execute
+    cursor.execute(sta
+tement, parameters)
+    ~~~~~~~~~~~~~~^^^^
+^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+585, in execute
+    self._adapt_connec
+tion.await_(
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~^
+        self._prepare_
+and_execute(operation,
+ parameters)
+        ^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+    )
+    ^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\_concurrency_py
+3k.py", line 132, in 
+await_only
+    return current.par
+ent.switch(awaitable) 
+ # type: ignore[no-any
+-return,attr-defined] 
+# noqa: E501
+           ~~~~~~~~~~~
+~~~~~~~~~~^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\util\_concurrency_py
+3k.py", line 196, in 
+greenlet_spawn
+    value = await 
+result
+            
+^^^^^^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+563, in 
+_prepare_and_execute
+    self._handle_excep
+tion(error)
+    ~~~~~~~~~~~~~~~~~~
+~~~~^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+513, in 
+_handle_exception
+    self._adapt_connec
+tion._handle_exception
+(error)
+    ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^
+  File "D:\odoo-nmit\d
+ayflow-hrms\venv\Lib\s
+ite-packages\sqlalchem
+y\dialects\postgresql\
+asyncpg.py", line 
+797, in 
+_handle_exception
+    raise 
+translated_error from 
+error
+sqlalchemy.exc.Program
+mingError: (sqlalchemy
+.dialects.postgresql.a
+syncpg.ProgrammingErro
+r) <class 'asyncpg.exc
+eptions.DuplicateObjec
+tError'>: type 
+"leavetype" already 
+exists
+[SQL: CREATE TYPE 
+leavetype AS ENUM 
+('PAID', 'SICK', 
+'UNPAID')]
+(Background on this 
+error at: https://sqla
+lche.me/e/20/f405)
