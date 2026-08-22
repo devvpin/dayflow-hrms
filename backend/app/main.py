@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.exc import SQLAlchemyError
 from app.core.config import settings
+from app.core.exceptions import sqlalchemy_exception_handler
 from app.routers import auth, employees, attendance, leaves, payroll, notifications, dashboard
 
 app = FastAPI(title="Dayflow HRMS")
+app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
 
 app.add_middleware(
     CORSMiddleware,
