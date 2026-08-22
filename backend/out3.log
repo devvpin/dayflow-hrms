@@ -1,0 +1,66 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0 -- D:\odoo-nmit\dayflow-hrms\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\odoo-nmit\dayflow-hrms\backend
+plugins: anyio-4.14.2, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests/test_auth.py::test_register_and_login ERROR                        [100%]
+
+=================================== ERRORS ====================================
+__________________ ERROR at setup of test_register_and_login __________________
+
+fixturedef = <FixtureDef argname='async_client' scope='function' baseid='tests'>
+request = <SubRequest 'async_client' for <Function test_register_and_login>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\venv\Lib\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\venv\Lib\site-packages\anyio\pytest_plugin.py:136: in wrapper
+    yield from runner.run_asyncgen_fixture(local_func, kwargs)
+..\venv\Lib\site-packages\anyio\_backends\_asyncio.py:2372: in run_asyncgen_fixture
+    fixturevalue: T_Retval = self.get_loop().run_until_complete(
+C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+..\venv\Lib\site-packages\anyio\_backends\_asyncio.py:2364: in _call_in_runner_task
+    return await future
+           ^^^^^^^^^^^^
+..\venv\Lib\site-packages\anyio\_backends\_asyncio.py:2330: in _run_tests_and_fixtures
+    retval = await coro
+             ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    @pytest.fixture
+    async def async_client():
+>       async with AsyncClient(app=app, base_url="http://test") as client:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: AsyncClient.__init__() got an unexpected keyword argument 'app'
+
+tests\conftest.py:11: TypeError
+============================== warnings summary ===============================
+app\schemas\user.py:11
+  D:\odoo-nmit\dayflow-hrms\backend\app\schemas\user.py:11: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class UserResponse(UserBase):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/test_auth.py::test_register_and_login - TypeError: AsyncClient.__...
+========================= 1 warning, 1 error in 0.29s =========================
