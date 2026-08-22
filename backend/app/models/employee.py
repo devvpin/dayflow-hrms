@@ -21,7 +21,7 @@ class Employee(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    user = relationship("User", back_populates="employee", foreign_keys=[user_id])
+    user = relationship("User", back_populates="employee", foreign_keys=[user_id], uselist=False)
     attendance = relationship("Attendance", back_populates="employee")
     leave_requests = relationship("LeaveRequest", back_populates="employee")
     payroll = relationship("Payroll", back_populates="employee", uselist=False)
