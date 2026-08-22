@@ -27,8 +27,14 @@ async def create_payroll(db: AsyncSession, payroll_in: PayrollCreate) -> Payroll
     )
     db.add(new_payroll)
     await db.commit()
-    await db.refresh(new_payroll)
-    return new_payroll
+    
+    # Reload with selectinload to satisfy Pydantic nested models mapping without MissingGreenlet error
+    result = await db.execute(
+        select(Payroll)
+        .options(selectinload(Payroll.employee))
+        .where(Payroll.id == new_payroll.id)
+    )
+    return result.scalars().first()
 
 async def get_employee_payroll(db: AsyncSession, employee_id: int) -> Sequence[Payroll]:
     stmt = select(Payroll).options(selectinload(Payroll.employee)).where(Payroll.employee_id == employee_id).order_by(Payroll.effective_from.desc())
