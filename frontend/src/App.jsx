@@ -7,6 +7,7 @@ import Register from './pages/auth/Register';
 import Unauthorized from './pages/errors/Unauthorized';
 import EmployeeDashboard from './pages/employee/Dashboard';
 import EmployeeProfile from './pages/employee/Profile';
+import EmployeeAttendance from './pages/employee/Attendance';
 
 
 
@@ -31,7 +32,7 @@ const App = () => {
             <Route path="profile" element={<EmployeeProfile />} />
             
             {/* Employee Routes (Default role) */}
-            <Route path="attendance" element={<div>Employee Attendance</div>} />
+            <Route path="attendance" element={<EmployeeAttendance />} />
             <Route path="leave" element={<div>Employee Leaves</div>} />
             <Route path="payroll" element={<div>Employee Payroll</div>} />
             
