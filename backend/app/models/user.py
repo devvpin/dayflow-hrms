@@ -21,5 +21,5 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    employee = relationship("Employee", back_populates="user", foreign_keys=[employee_id], uselist=False)
+    employee = relationship("Employee", foreign_keys=[employee_id], uselist=False)
     notifications = relationship("Notification", back_populates="user")
