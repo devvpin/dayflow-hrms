@@ -6,6 +6,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Unauthorized from './pages/errors/Unauthorized';
 import EmployeeDashboard from './pages/employee/Dashboard';
+import EmployeeProfile from './pages/employee/Profile';
 
 
 
@@ -27,7 +28,7 @@ const App = () => {
             
             {/* Common Routes */}
             <Route path="notifications" element={<div>Notifications Page</div>} />
-            <Route path="profile" element={<div>Profile Page</div>} />
+            <Route path="profile" element={<EmployeeProfile />} />
             
             {/* Employee Routes (Default role) */}
             <Route path="attendance" element={<div>Employee Attendance</div>} />
