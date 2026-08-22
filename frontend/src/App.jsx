@@ -8,6 +8,7 @@ import Unauthorized from './pages/errors/Unauthorized';
 import EmployeeDashboard from './pages/employee/Dashboard';
 import EmployeeProfile from './pages/employee/Profile';
 import EmployeeAttendance from './pages/employee/Attendance';
+import EmployeeLeaves from './pages/employee/Leaves';
 
 
 
@@ -33,7 +34,7 @@ const App = () => {
             
             {/* Employee Routes (Default role) */}
             <Route path="attendance" element={<EmployeeAttendance />} />
-            <Route path="leave" element={<div>Employee Leaves</div>} />
+            <Route path="leave" element={<EmployeeLeaves />} />
             <Route path="payroll" element={<div>Employee Payroll</div>} />
             
             {/* Admin Routes */}
