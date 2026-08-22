@@ -12,6 +12,7 @@ import EmployeeLeaves from './pages/employee/Leaves';
 import EmployeePayroll from './pages/employee/Payroll';
 import AdminLeaveRequests from './pages/admin/LeaveRequests';
 import AdminPayroll from './pages/admin/Payroll';
+import AdminEmployees from './pages/admin/Employees';
 
 
 
@@ -43,7 +44,7 @@ const App = () => {
             {/* Admin Routes */}
             <Route path="admin/employees" element={
               <ProtectedRoute requiredRole="admin">
-                <div>Admin Employees</div>
+                <AdminEmployees />
               </ProtectedRoute>
             } />
             <Route path="admin/attendance" element={
