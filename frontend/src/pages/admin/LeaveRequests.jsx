@@ -21,10 +21,10 @@ const LeaveRequests = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  
+
   // Filters
   const [statusFilter, setStatusFilter] = useState('');
-  
+
   // Modal state
   const [actionModal, setActionModal] = useState({ show: false, leaveId: null, action: null }); // action: 'APPROVED' | 'REJECTED'
   const [adminComment, setAdminComment] = useState('');
@@ -34,7 +34,7 @@ const LeaveRequests = () => {
     try {
       const params = {};
       if (statusFilter) params.status = statusFilter;
-      
+
       const data = await leaveService.getAllLeaves(params);
       setLeaves(data);
     } catch (err) {
@@ -64,7 +64,7 @@ const LeaveRequests = () => {
         status: actionModal.action,
         admin_comment: adminComment
       });
-      
+
       setSuccess(`Leave request ${actionModal.action.toLowerCase()} successfully.`);
       setActionModal({ show: false, leaveId: null, action: null });
       fetchLeaves(); // Refresh data
@@ -85,9 +85,16 @@ const LeaveRequests = () => {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const diffTime = Math.abs(endDate - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     return diffDays;
   };
+
+  const filteredLeaves = leaves.filter(leave => {
+    if (!statusFilter) return true;
+    // Backend returns "APPROVED" but sometimes dropdown might mismatch case if we change it later, 
+    // but the dropdown is currently "APPROVED", "PENDING", "REJECTED", exactly matching DB.
+    return leave.status === statusFilter;
+  });
 
   return (
     <div className="space-y-6 relative">
@@ -152,8 +159,8 @@ const LeaveRequests = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {leaves.length > 0 ? (
-                  leaves.map((leave, idx) => (
+                {filteredLeaves.length > 0 ? (
+                  filteredLeaves.map((leave, idx) => (
                     <tr key={idx} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{leave.employee?.full_name || 'Unknown Employee'}</div>
@@ -220,12 +227,11 @@ const LeaveRequests = () => {
 
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div className="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10 ${
-                    actionModal.action === 'APPROVED' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                  }`}>
+                  <div className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10 ${actionModal.action === 'APPROVED' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                    }`}>
                     {actionModal.action === 'APPROVED' ? <CheckCircle size={24} /> : <XCircle size={24} />}
                   </div>
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
@@ -236,7 +242,7 @@ const LeaveRequests = () => {
                       <p className="text-sm text-gray-500 mb-4">
                         Are you sure you want to {actionModal.action.toLowerCase()} this leave request? You can add an optional comment below.
                       </p>
-                      
+
                       {error && (
                         <div className="mb-4 bg-red-50 text-red-600 p-3 rounded-md text-sm border border-red-100">
                           {error}
@@ -262,11 +268,10 @@ const LeaveRequests = () => {
                   type="button"
                   disabled={actionLoading}
                   onClick={submitAction}
-                  className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-70 ${
-                    actionModal.action === 'APPROVED' 
-                      ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500' 
-                      : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
-                  }`}
+                  className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-70 ${actionModal.action === 'APPROVED'
+                    ? 'bg-green-600 hover:bg-green-700 focus:ring-green-500'
+                    : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                    }`}
                 >
                   {actionLoading ? 'Processing...' : `Confirm ${actionModal.action === 'APPROVED' ? 'Approval' : 'Rejection'}`}
                 </button>

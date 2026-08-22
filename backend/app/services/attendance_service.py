@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload
 from fastapi import HTTPException, status
 from typing import Sequence, Optional
 from datetime import datetime, date, timezone
@@ -49,7 +50,7 @@ async def check_out(db: AsyncSession, employee_id: int) -> Attendance:
     return record
 
 async def get_my_attendance(db: AsyncSession, employee_id: int, start_date: Optional[date] = None, end_date: Optional[date] = None) -> Sequence[Attendance]:
-    stmt = select(Attendance).where(Attendance.employee_id == employee_id)
+    stmt = select(Attendance).options(selectinload(Attendance.employee)).where(Attendance.employee_id == employee_id)
     if start_date:
         stmt = stmt.where(Attendance.date >= start_date)
     if end_date:
@@ -59,7 +60,7 @@ async def get_my_attendance(db: AsyncSession, employee_id: int, start_date: Opti
     return result.scalars().all()
 
 async def get_all_attendance(db: AsyncSession, start_date: Optional[date] = None, end_date: Optional[date] = None) -> Sequence[Attendance]:
-    stmt = select(Attendance)
+    stmt = select(Attendance).options(selectinload(Attendance.employee))
     if start_date:
         stmt = stmt.where(Attendance.date >= start_date)
     if end_date:

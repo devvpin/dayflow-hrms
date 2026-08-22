@@ -29,5 +29,10 @@ export const employeeService = {
   updateEmployee: async (id, data) => {
     const response = await api.put(`/api/employees/${id}`, data);
     return response.data;
+  },
+
+  deleteEmployee: async (id) => {
+    const response = await api.delete(`/api/employees/${id}`);
+    return response.data;
   }
 };

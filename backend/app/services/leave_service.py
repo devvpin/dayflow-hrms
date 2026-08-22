@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload
 from fastapi import HTTPException
 from typing import Sequence
 from app.models.leave import LeaveRequest, LeaveStatus
@@ -19,27 +20,35 @@ async def create_leave_request(db: AsyncSession, employee_id: int, leave_in: Lea
     )
     db.add(new_leave)
     await db.commit()
-    await db.refresh(new_leave)
-    return new_leave
+    
+    # Reload with selectinload to satisfy Pydantic nested models mapping without MissingGreenlet error
+    result = await db.execute(
+        select(LeaveRequest)
+        .options(selectinload(LeaveRequest.employee))
+        .where(LeaveRequest.id == new_leave.id)
+    )
+    return result.scalars().first()
 
 async def get_employee_leaves(db: AsyncSession, employee_id: int) -> Sequence[LeaveRequest]:
-    stmt = select(LeaveRequest).where(LeaveRequest.employee_id == employee_id).order_by(LeaveRequest.created_at.desc())
+    stmt = select(LeaveRequest).options(selectinload(LeaveRequest.employee)).where(LeaveRequest.employee_id == employee_id).order_by(LeaveRequest.created_at.desc())
     result = await db.execute(stmt)
     return result.scalars().all()
 
 async def get_all_leaves(db: AsyncSession) -> Sequence[LeaveRequest]:
-    stmt = select(LeaveRequest).order_by(LeaveRequest.created_at.desc())
+    stmt = select(LeaveRequest).options(selectinload(LeaveRequest.employee)).order_by(LeaveRequest.created_at.desc())
     result = await db.execute(stmt)
     return result.scalars().all()
 
 async def update_leave_status(db: AsyncSession, leave_id: int, status_in: LeaveStatusUpdate) -> LeaveRequest:
-    result = await db.execute(select(LeaveRequest).where(LeaveRequest.id == leave_id))
+    result = await db.execute(select(LeaveRequest).options(selectinload(LeaveRequest.employee)).where(LeaveRequest.id == leave_id))
     leave = result.scalars().first()
     
     if not leave:
         raise HTTPException(status_code=404, detail="Leave request not found")
         
     leave.status = status_in.status
+    if status_in.admin_comment:
+        leave.admin_comments = status_in.admin_comment
     db.add(leave)
     await db.commit()
     await db.refresh(leave)

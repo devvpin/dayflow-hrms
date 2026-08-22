@@ -10,20 +10,18 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/';
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Convert to FormData as FastAPI OAuth2PasswordRequestForm expects form data, not JSON
     // Wait, Phase 3 says /api/auth/login. We'll use URLSearchParams just in case.
     // If backend expects JSON, it's fine. The instruction says FastAPI backend. Usually OAuth2 expects form.
     // We will just pass an object to the service, and the service uses api.post. We can adjust the service if needed.
     const success = await login({ username: email, password });
-    
+
     if (success) {
-      navigate(from, { replace: true });
+      navigate('/', { replace: true });
     }
     setIsSubmitting(false);
   };
@@ -39,7 +37,7 @@ const Login = () => {
             Every workday, perfectly aligned.
           </p>
         </div>
-        
+
         {error && (
           <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
             {error}
@@ -83,7 +81,7 @@ const Login = () => {
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
-          
+
           <div className="text-center text-sm mt-4">
             Don't have an account? <Link to="/register" className="text-primary hover:underline">Register here</Link>
           </div>

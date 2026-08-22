@@ -26,17 +26,24 @@ async def seed():
 
         today = date.today()
         # Mock Attendance (Past 5 days check-ins and check-outs)
+        statuses = ["Present", "Half Day", "Absent", "On Leave", "Present"]
         for i in range(1, 6):
             d = today - timedelta(days=i)
             res = await db.execute(select(Attendance).filter(Attendance.employee_id == admin_emp.id, Attendance.date == d))
             if not res.scalars().first():
+                status = statuses[i-1]
+                work_hours = 8.00 if status == "Present" else (4.00 if status == "Half Day" else 0.0)
+                
+                check_in_time = datetime.now().replace(year=d.year, month=d.month, day=d.day, hour=9, minute=0, second=0) if status != "Absent" and status != "On Leave" else None
+                check_out_time = datetime.now().replace(year=d.year, month=d.month, day=d.day, hour=(17 if status == "Present" else 13), minute=0, second=0) if status != "Absent" and status != "On Leave" else None
+                
                 att = Attendance(
                     employee_id=admin_emp.id,
                     date=d,
-                    check_in=datetime.now().replace(year=d.year, month=d.month, day=d.day, hour=9, minute=0, second=0),
-                    check_out=datetime.now().replace(year=d.year, month=d.month, day=d.day, hour=17, minute=0, second=0),
-                    status="Present",
-                    work_hours=8.00
+                    check_in=check_in_time,
+                    check_out=check_out_time,
+                    status=status,
+                    work_hours=work_hours
                 )
                 db.add(att)
 

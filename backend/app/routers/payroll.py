@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.models.user import User
 from app.dependencies.auth import get_current_user
 from app.dependencies.permissions import require_admin_or_hr
-from app.schemas.payroll import PayrollCreate, PayrollResponse
+from app.schemas.payroll import PayrollCreate, PayrollResponse, PayrollUpdate
 from app.services import payroll_service
 from app.routers.attendance import get_current_employee_id
 
@@ -32,3 +32,12 @@ async def read_all_payrolls(
     current_user: User = Depends(require_admin_or_hr)
 ):
     return await payroll_service.get_all_payrolls(db)
+
+@router.put("/{payroll_id}", response_model=PayrollResponse)
+async def update_payroll(
+    payroll_id: int,
+    payroll_in: PayrollUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_admin_or_hr)
+):
+    return await payroll_service.update_payroll(db, payroll_id, payroll_in)

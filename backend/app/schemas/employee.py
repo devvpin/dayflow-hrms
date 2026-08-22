@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, computed_field
 from typing import Optional
 from datetime import date
 from app.models.user import Role
@@ -27,6 +27,7 @@ class EmployeeUpdateAdmin(BaseModel):
     address: Optional[str] = None
     joining_date: Optional[date] = None
     profile_picture: Optional[str] = None
+    is_active: Optional[bool] = None
 
 class EmployeeUpdateMe(BaseModel):
     phone: Optional[str] = None
@@ -40,3 +41,13 @@ class EmployeeResponse(EmployeeBase):
     joining_date: Optional[date] = None
     
     model_config = ConfigDict(from_attributes=True)
+
+    @computed_field
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}".strip()
+
+    @computed_field
+    @property
+    def employee_id(self) -> str:
+        return self.employee_code

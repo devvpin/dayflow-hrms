@@ -68,3 +68,13 @@ async def update_employee(
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
     return await employee_service.update_employee(db, employee, emp_in)
+
+@router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_employee(
+    employee_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_admin_or_hr)
+):
+    success = await employee_service.delete_employee(db, employee_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Employee not found")

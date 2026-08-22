@@ -3,15 +3,17 @@ import { attendanceService } from '../../services/attendance';
 import { Clock, Calendar, Search, Filter, AlertCircle } from 'lucide-react';
 
 const StatusBadge = ({ status }) => {
+  const normalizedStatus = status ? status.toUpperCase().replace('-', '_').replace(' ', '_') : '';
   const styles = {
     PRESENT: 'bg-green-100 text-green-800',
     ABSENT: 'bg-red-100 text-red-800',
     HALF_DAY: 'bg-yellow-100 text-yellow-800',
     LEAVE: 'bg-blue-100 text-blue-800',
+    ON_LEAVE: 'bg-blue-100 text-blue-800',
   };
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || 'bg-gray-100 text-gray-800'}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[normalizedStatus] || 'bg-gray-100 text-gray-800'}`}>
       {status}
     </span>
   );
@@ -37,7 +39,7 @@ const AdminAttendance = () => {
       if (dateFilter) params.date = dateFilter;
       if (statusFilter) params.status = statusFilter;
       // Note: Backend might not support search in this endpoint yet, doing client-side filter as fallback later
-      
+
       const data = await attendanceService.getAllAttendance(params);
       setRecords(data);
       setError(null);
@@ -72,10 +74,18 @@ const AdminAttendance = () => {
 
   // Client-side search filtering
   const filteredRecords = records.filter(record => {
-    if (!searchQuery) return true;
-    const nameMatch = record.employee?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
-    const idMatch = record.employee?.employee_id?.toLowerCase().includes(searchQuery.toLowerCase());
-    return nameMatch || idMatch;
+    // Search query filter
+    const searchMatch = !searchQuery ||
+      record.employee?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.employee?.employee_id?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    // Status filter
+    const statusMatch = !statusFilter || record.status === statusFilter;
+
+    // Date filter
+    const dateMatch = !dateFilter || record.date === dateFilter;
+
+    return searchMatch && statusMatch && dateMatch;
   });
 
   return (
@@ -108,7 +118,7 @@ const AdminAttendance = () => {
               className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
             />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-gray-400 hidden sm:block" />
             <input
@@ -127,10 +137,10 @@ const AdminAttendance = () => {
               className="block w-full px-3 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm"
             >
               <option value="">All Statuses</option>
-              <option value="PRESENT">Present</option>
-              <option value="ABSENT">Absent</option>
-              <option value="HALF_DAY">Half Day</option>
-              <option value="LEAVE">On Leave</option>
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
+              <option value="Half Day">Half Day</option>
+              <option value="On Leave">On Leave</option>
             </select>
           </div>
         </div>

@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const userData = await authService.getCurrentUser();
-          setUser(userData);
+          setUser({ ...userData, role: userData.role?.toLowerCase() });
         } catch (err) {
           console.error('Failed to load user', err);
           localStorage.removeItem('token');
@@ -41,10 +41,16 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', data.access_token);
       // After login, fetch the user
       const userData = await authService.getCurrentUser();
-      setUser(userData);
+      setUser({ ...userData, role: userData.role?.toLowerCase() });
       return true;
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed');
+      let msg = 'Login failed';
+      if (err.response?.data?.detail) {
+        msg = typeof err.response.data.detail === 'string'
+          ? err.response.data.detail
+          : err.response.data.detail[0]?.msg || msg;
+      }
+      setError(msg);
       return false;
     }
   };
@@ -55,7 +61,13 @@ export const AuthProvider = ({ children }) => {
       await authService.register(userData);
       return true;
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed');
+      let msg = 'Registration failed';
+      if (err.response?.data?.detail) {
+        msg = typeof err.response.data.detail === 'string'
+          ? err.response.data.detail
+          : err.response.data.detail[0]?.msg || msg;
+      }
+      setError(msg);
       return false;
     }
   };
