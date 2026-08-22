@@ -26,8 +26,11 @@ async def check_in(db: AsyncSession, employee_id: int) -> Attendance:
     )
     db.add(new_record)
     await db.commit()
-    await db.refresh(new_record)
-    return new_record
+    
+    result = await db.execute(
+        select(Attendance).options(selectinload(Attendance.employee)).where(Attendance.id == new_record.id)
+    )
+    return result.scalars().first()
 
 async def check_out(db: AsyncSession, employee_id: int) -> Attendance:
     today = datetime.now(timezone.utc).date()
@@ -46,8 +49,11 @@ async def check_out(db: AsyncSession, employee_id: int) -> Attendance:
     
     db.add(record)
     await db.commit()
-    await db.refresh(record)
-    return record
+    
+    result = await db.execute(
+        select(Attendance).options(selectinload(Attendance.employee)).where(Attendance.id == record.id)
+    )
+    return result.scalars().first()
 
 async def get_my_attendance(db: AsyncSession, employee_id: int, start_date: Optional[date] = None, end_date: Optional[date] = None) -> Sequence[Attendance]:
     stmt = select(Attendance).options(selectinload(Attendance.employee)).where(Attendance.employee_id == employee_id)

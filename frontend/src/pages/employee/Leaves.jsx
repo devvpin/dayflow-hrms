@@ -74,7 +74,13 @@ const Leaves = () => {
       setFormData({ leave_type: 'PAID', start_date: '', end_date: '', reason: '' });
       fetchLeaves(); // Refresh the list
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to submit leave request.');
+      let msg = 'Failed to submit leave request.';
+      if (err.response?.data?.detail) {
+        msg = typeof err.response.data.detail === 'string'
+          ? err.response.data.detail
+          : err.response.data.detail[0]?.msg || msg;
+      }
+      setError(msg);
     } finally {
       setSubmitting(false);
     }
