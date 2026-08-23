@@ -36,7 +36,7 @@ const LeaveRequests = () => {
       if (statusFilter) params.status = statusFilter;
 
       const data = await leaveService.getAllLeaves(params);
-      setLeaves(data);
+      setLeaves(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load leave requests.');
     } finally {
@@ -161,7 +161,7 @@ const LeaveRequests = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredLeaves.length > 0 ? (
                   filteredLeaves.map((leave, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                    <tr key={leave.id ?? idx} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{leave.employee?.full_name || 'Unknown Employee'}</div>
                         <div className="text-sm text-gray-500">{leave.employee?.employee_id || 'ID N/A'}</div>

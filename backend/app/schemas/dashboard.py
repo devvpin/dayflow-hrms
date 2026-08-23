@@ -23,8 +23,10 @@ class TodayAttendanceSubStats(BaseModel):
 
 class AdminDashboardResponse(BaseModel):
     total_employees: int
+    active_employees: int
     attendance_today: int
     pending_leave_requests: int
+    on_leave_today: int
     recent_notifications: List[NotificationResponse]
 
 class EmployeeDashboardResponse(BaseModel):

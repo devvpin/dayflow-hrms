@@ -35,7 +35,7 @@ const Leaves = () => {
   const fetchLeaves = async () => {
     try {
       const data = await leaveService.getMyLeaves();
-      setLeaves(data);
+      setLeaves(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load leave history.');
     } finally {
@@ -159,7 +159,7 @@ const Leaves = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {leaves.length > 0 ? (
                   leaves.map((leave, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                    <tr key={leave.id ?? idx} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {leave.leave_type}
                       </td>
@@ -175,8 +175,8 @@ const Leaves = () => {
                       <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title={leave.reason}>
                         {leave.reason}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title={leave.admin_comment}>
-                        {leave.admin_comment || '-'}
+                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title={leave.admin_comments}>
+                        {leave.admin_comments || '-'}
                       </td>
                     </tr>
                   ))

@@ -8,6 +8,8 @@ from app.schemas.payroll import PayrollCreate, PayrollUpdate
 
 async def create_payroll(db: AsyncSession, payroll_in: PayrollCreate) -> Payroll:
     net_salary = payroll_in.basic_salary + payroll_in.allowances - payroll_in.deductions
+    if net_salary < 0:
+        raise HTTPException(status_code=400, detail="Net salary cannot be negative: deductions exceed basic salary plus allowances")
     
     stmt = select(Payroll).where(
         Payroll.employee_id == payroll_in.employee_id,
@@ -58,6 +60,8 @@ async def update_payroll(db: AsyncSession, payroll_id: int, payroll_in: PayrollU
     
     # Recalculate net salary
     payroll.net_salary = payroll.basic_salary + payroll.allowances - payroll.deductions
+    if payroll.net_salary < 0:
+        raise HTTPException(status_code=400, detail="Net salary cannot be negative: deductions exceed basic salary plus allowances")
     db.add(payroll)
     await db.commit()
     await db.refresh(payroll)

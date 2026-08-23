@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import date, datetime
-from decimal import Decimal
 from app.schemas.employee import EmployeeResponse
 
 class AttendanceResponse(BaseModel):
@@ -11,7 +10,7 @@ class AttendanceResponse(BaseModel):
     check_in: Optional[datetime] = None
     check_out: Optional[datetime] = None
     status: str
-    work_hours: Optional[Decimal] = None
+    work_hours: Optional[float] = None
     employee: Optional[EmployeeResponse] = None
     
     model_config = ConfigDict(from_attributes=True)

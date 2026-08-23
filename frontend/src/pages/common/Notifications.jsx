@@ -10,7 +10,7 @@ const Notifications = () => {
   const fetchNotifications = async () => {
     try {
       const data = await notificationService.getMyNotifications({ limit: 50 });
-      setNotifications(data);
+      setNotifications(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load notifications.');
     } finally {

@@ -26,7 +26,7 @@ const AdminEmployees = () => {
       if (departmentFilter) params.department = departmentFilter;
 
       const data = await employeeService.getAllEmployees(params);
-      setEmployees(data);
+      setEmployees(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load employees.');
     } finally {
@@ -394,14 +394,6 @@ const AdminEmployees = () => {
                         <input type="text" name="designation" value={editForm.designation} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
-                        <select name="role" value={editForm.role} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm bg-white">
-                          <option value="employee">Employee</option>
-                          <option value="hr">HR</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      </div>
-                      <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                         <input type="text" name="phone" value={editForm.phone} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" />
                       </div>
@@ -428,17 +420,17 @@ const AdminEmployees = () => {
                           </div>
                         </div>
                         <div className="flex items-start gap-2">
-                          <div className="w-4 h-4 mt-0.5 rounded-full bg-gray-200 flex items-center justify-center text-[8px]">ID</div>
+                          <div className="w-4 h-4 mt-0.5 rounded-full bg-gray-200 flex items-center justify-center text-[8px]">R</div>
                           <div>
-                            <p className="text-xs text-gray-500">Username</p>
-                            <p className="text-sm font-medium text-gray-900">{selectedEmployee.username}</p>
+                            <p className="text-xs text-gray-500">Role</p>
+                            <p className="text-sm font-medium text-gray-900 uppercase">{selectedEmployee.role || 'N/A'}</p>
                           </div>
                         </div>
                         <div className="flex items-start gap-2">
                           <Calendar className="text-gray-400 mt-0.5" size={16} />
                           <div>
                             <p className="text-xs text-gray-500">Join Date</p>
-                            <p className="text-sm font-medium text-gray-900">{selectedEmployee.join_date || 'N/A'}</p>
+                            <p className="text-sm font-medium text-gray-900">{selectedEmployee.joining_date || 'N/A'}</p>
                           </div>
                         </div>
                       </div>

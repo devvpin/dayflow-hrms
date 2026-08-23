@@ -14,6 +14,8 @@ export const adminNavigation = [
   { name: 'Leave Requests', href: '/admin/leaves' },
   { name: 'Payroll', href: '/admin/payroll' },
   { name: 'Reports', href: '/admin/reports' },
+  { name: 'Settings', href: '/admin/settings' },
+  { name: 'Profile', href: '/profile' },
   { name: 'Notifications', href: '/notifications' }
 ];
 

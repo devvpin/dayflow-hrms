@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 const StatCard = ({ title, value, subtitle, icon, color = 'primary' }) => {
   const colorMap = {
     primary: 'text-primary bg-primary/10',

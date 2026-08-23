@@ -20,9 +20,9 @@ const AdminReports = () => {
       const data = await dashboardService.getAdminStats();
       setStats({
         totalEmployees: data.total_employees || 0,
-        activeEmployees: data.total_employees || 0,
+        activeEmployees: data.active_employees ?? data.total_employees ?? 0,
         presentToday: data.attendance_today || 0,
-        onLeaveToday: 0,
+        onLeaveToday: data.on_leave_today || 0,
         pendingLeaves: data.pending_leave_requests || 0
       });
     } catch (err) {

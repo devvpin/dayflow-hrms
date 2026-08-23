@@ -41,7 +41,7 @@ const AdminAttendance = () => {
       // Note: Backend might not support search in this endpoint yet, doing client-side filter as fallback later
 
       const data = await attendanceService.getAllAttendance(params);
-      setRecords(data);
+      setRecords(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
       setError('Failed to load attendance records.');
@@ -165,7 +165,7 @@ const AdminAttendance = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRecords.length > 0 ? (
                   filteredRecords.map((record, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                    <tr key={record.id ?? idx} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{record.employee?.full_name || 'Unknown'}</div>
                         <div className="text-sm text-gray-500">{record.employee?.employee_id || 'ID N/A'}</div>

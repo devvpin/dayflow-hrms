@@ -1,0 +1,10 @@
+[2m5:18:59 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mFailed to load user AxiosError: Network Error
+    at XMLHttpRequest.handleError (http://localhost:5173/node_modules/.vite/deps/axios.js?v=19ca09aa:2396:16)
+    at Axios$1.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=19ca09aa:3188:37)
+    at async Object.getCurrentUser (http://localhost:5173/src/services/auth.js:15:20)
+    at async initAuth (http://localhost:5173/src/context/AuthContext.jsx:18:23)
+[2m5:18:59 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mFailed to load user AxiosError: Network Error
+    at XMLHttpRequest.handleError (http://localhost:5173/node_modules/.vite/deps/axios.js?v=19ca09aa:2396:16)
+    at Axios$1.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=19ca09aa:3188:37)
+    at async Object.getCurrentUser (http://localhost:5173/src/services/auth.js:15:20)
+    at async initAuth (http://localhost:5173/src/context/AuthContext.jsx:18:23)

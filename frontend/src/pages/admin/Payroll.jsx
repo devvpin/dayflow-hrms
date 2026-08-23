@@ -41,8 +41,8 @@ const AdminPayroll = () => {
         payrollService.getAllPayroll(),
         employeeService.getAllEmployees()
       ]);
-      setPayrolls(payrollData);
-      setEmployees(employeeData);
+      setPayrolls(Array.isArray(payrollData) ? payrollData : []);
+      setEmployees(Array.isArray(employeeData) ? employeeData : []);
     } catch (err) {
       setError('Failed to load payroll data.');
     } finally {
@@ -110,7 +110,7 @@ const AdminPayroll = () => {
       if (!addForm.employee_id) throw new Error("Please select an employee");
 
       const payload = {
-        employee_id: parseInt(addForm.employee_id),
+        employee_id: parseInt(addForm.employee_id, 10),
         effective_from: addForm.effective_from,
         basic_salary: parseFloat(addForm.basic_salary || 0),
         allowances: parseFloat(addForm.allowances || 0),

@@ -12,7 +12,8 @@ async def get_attendance_record(db: AsyncSession, employee_id: int, target_date:
     return result.scalars().first()
 
 async def check_in(db: AsyncSession, employee_id: int) -> Attendance:
-    today = datetime.now(timezone.utc).date()
+    now = datetime.now(timezone.utc)
+    today = now.date()
     existing = await get_attendance_record(db, employee_id, today)
     
     if existing:
@@ -21,7 +22,7 @@ async def check_in(db: AsyncSession, employee_id: int) -> Attendance:
     new_record = Attendance(
         employee_id=employee_id,
         date=today,
-        check_in=datetime.now(timezone.utc),
+        check_in=now,
         status="Present"
     )
     db.add(new_record)
@@ -33,18 +34,20 @@ async def check_in(db: AsyncSession, employee_id: int) -> Attendance:
     return result.scalars().first()
 
 async def check_out(db: AsyncSession, employee_id: int) -> Attendance:
-    today = datetime.now(timezone.utc).date()
+    now = datetime.now(timezone.utc)
+    today = now.date()
     record = await get_attendance_record(db, employee_id, today)
     
     if not record:
         raise HTTPException(status_code=400, detail="Cannot check out without checking in")
     if record.check_out:
         raise HTTPException(status_code=400, detail="Already checked out for today")
+    if record.check_in is None:
+        raise HTTPException(status_code=400, detail="Cannot check out: no check-in was recorded")
         
-    out_time = datetime.now(timezone.utc)
-    record.check_out = out_time
-    
-    delta = out_time - record.check_in
+    record.check_out = now
+
+    delta = now - record.check_in
     record.work_hours = round(delta.total_seconds() / 3600.0, 2)
     
     db.add(record)

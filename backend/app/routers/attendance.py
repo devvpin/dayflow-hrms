@@ -8,14 +8,14 @@ from app.dependencies.auth import get_current_user
 from app.dependencies.permissions import require_admin_or_hr
 from app.schemas.attendance import AttendanceResponse
 from app.services import attendance_service
-from app.services.employee_service import get_employee_by_user_id
+from app.services.employee_service import get_or_create_employee_for_user
 
 router = APIRouter()
 
 async def get_current_employee_id(current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)) -> int:
-    employee = await get_employee_by_user_id(db, current_user.id)
-    if not employee:
-        raise HTTPException(status_code=400, detail="Employee profile missing")
+    # Provision a profile on demand so no authenticated user is locked out of
+    # self-service (leave/attendance/payroll/dashboard) for lacking one.
+    employee = await get_or_create_employee_for_user(db, current_user)
     return employee.id
 
 @router.post("/check-in", response_model=AttendanceResponse)

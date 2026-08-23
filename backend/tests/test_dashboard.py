@@ -67,4 +67,5 @@ async def test_dashboard_endpoints():
         resp = await client.get("/api/dashboard/me", headers={"Authorization": f"Bearer {new_token}"})
         assert resp.status_code == 200
         emp_stats = resp.json()
-        assert emp_stats["checked_in_today"] is False
+        # A newly created employee has no attendance record for today.
+        assert emp_stats["today_attendance"] is None

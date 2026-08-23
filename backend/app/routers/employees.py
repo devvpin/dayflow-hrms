@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from app.core.database import get_db
-from app.models.user import User
+from app.models.user import User, Role
 from app.dependencies.auth import get_current_user
 from app.dependencies.permissions import require_admin_or_hr
 from app.schemas.employee import EmployeeResponse, EmployeeCreate, EmployeeUpdateMe, EmployeeUpdateAdmin
@@ -44,6 +44,13 @@ async def create_new_employee(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(require_admin_or_hr)
 ):
+    # Only an ADMIN may create accounts with an elevated role. This prevents an
+    # HR user from escalating privileges by creating a new ADMIN/HR account.
+    if emp_in.role != Role.EMPLOYEE and current_user.role != Role.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only an admin can assign a non-employee role"
+        )
     return await employee_service.create_employee(db, emp_in)
 
 @router.get("/{employee_id}", response_model=EmployeeResponse)

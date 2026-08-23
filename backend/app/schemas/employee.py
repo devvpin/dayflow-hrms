@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict, computed_field
+from pydantic import BaseModel, EmailStr, ConfigDict, computed_field, model_validator
 from typing import Optional
 from datetime import date
 from app.models.user import Role
@@ -37,10 +37,35 @@ class EmployeeUpdateMe(BaseModel):
 class EmployeeResponse(EmployeeBase):
     id: int
     employee_code: str
-    user_id: int
+    user_id: Optional[int] = None
     joining_date: Optional[date] = None
-    
+    email: Optional[str] = None
+    role: Optional[Role] = None
+    is_active: Optional[bool] = None
+
     model_config = ConfigDict(from_attributes=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _populate_user_fields(cls, data):
+        # Surface the linked User's email/role/is_active (stored on the User
+        # row, not Employee) so admin views can display them. The `user`
+        # relationship must be eager-loaded; if it isn't, degrade to None
+        # rather than triggering an async lazy-load that would raise.
+        if isinstance(data, dict):
+            return data
+        try:
+            user = data.user
+        except Exception:
+            return data
+        if user is not None:
+            try:
+                data.email = user.email
+                data.role = user.role
+                data.is_active = user.is_active
+            except Exception:
+                pass
+        return data
 
     @computed_field
     @property

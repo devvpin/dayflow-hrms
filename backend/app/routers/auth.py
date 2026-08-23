@@ -5,7 +5,7 @@ from typing import Any
 from app.core.database import get_db
 from app.schemas.user import UserCreate, UserResponse
 from app.schemas.auth import Token
-from app.services import auth_service
+from app.services import auth_service, settings_service
 from app.dependencies.auth import get_current_user
 from app.models.user import User
 from app.utils.security import create_access_token
@@ -14,6 +14,12 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user_in: UserCreate, db: AsyncSession = Depends(get_db)) -> Any:
+    settings = await settings_service.get_or_create_settings(db)
+    if not settings.allow_employee_registration:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Self-registration is currently disabled. Please contact your administrator.",
+        )
     return await auth_service.create_user(db, user_in)
 
 @router.post("/login", response_model=Token)

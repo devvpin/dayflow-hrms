@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import DashboardLayout from './layouts/DashboardLayout';
 import Login from './pages/auth/Login';
@@ -20,6 +20,16 @@ import AdminSettings from './pages/admin/Settings';
 
 
 
+const DashboardIndex = () => {
+  const { user } = useAuth();
+  // Admins/HR have no personal employee dashboard; send them to the admin
+  // overview. Regular employees see their own dashboard.
+  if (user?.role === 'admin' || user?.role === 'hr') {
+    return <AdminReports />;
+  }
+  return <EmployeeDashboard />;
+};
+
 const App = () => {
   return (
     <AuthProvider>
@@ -34,7 +44,7 @@ const App = () => {
               <DashboardLayout />
             </ProtectedRoute>
           }>
-            <Route index element={<EmployeeDashboard />} />
+            <Route index element={<DashboardIndex />} />
             
             {/* Common Routes */}
             <Route path="notifications" element={<Notifications />} />
@@ -47,32 +57,32 @@ const App = () => {
             
             {/* Admin Routes */}
             <Route path="admin/employees" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminEmployees />
               </ProtectedRoute>
             } />
             <Route path="admin/attendance" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminAttendance />
               </ProtectedRoute>
             } />
             <Route path="admin/leaves" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminLeaveRequests />
               </ProtectedRoute>
             } />
             <Route path="admin/payroll" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminPayroll />
               </ProtectedRoute>
             } />
             <Route path="admin/settings" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminSettings />
               </ProtectedRoute>
             } />
             <Route path="admin/reports" element={
-              <ProtectedRoute requiredRole="admin">
+              <ProtectedRoute requiredRole={['admin', 'hr']}>
                 <AdminReports />
               </ProtectedRoute>
             } />

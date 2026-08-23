@@ -7,6 +7,10 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    # When provided (e.g. from the registration form) a linked Employee profile
+    # is created automatically. Optional so admin/HR and tests can create bare
+    # user accounts without a profile.
+    full_name: Optional[str] = None
 
 class UserResponse(UserBase):
     id: int

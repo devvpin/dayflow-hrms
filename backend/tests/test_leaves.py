@@ -54,14 +54,14 @@ async def test_leaves_endpoints():
         
         # 1. New Employee Requests Leave
         leave_req = {
-            "leave_type": "Sick Leave",
+            "leave_type": "SICK",
             "start_date": "2026-09-01",
             "end_date": "2026-09-05",
             "reason": "Flu"
         }
         resp = await client.post("/api/leaves", json=leave_req, headers=headers_new)
         assert resp.status_code == 201
-        assert resp.json()["status"] == "Pending"
+        assert resp.json()["status"] == "PENDING"
         leave_id = resp.json()["id"]
         
         # 2. Employee checks own leaves
@@ -70,7 +70,7 @@ async def test_leaves_endpoints():
         assert len(resp.json()) == 1
         
         # 3. Employee tries to approve own leave (403 expected)
-        resp = await client.put(f"/api/leaves/{leave_id}/status", json={"status": "Approved"}, headers=headers_new)
+        resp = await client.put(f"/api/leaves/{leave_id}/status", json={"status": "APPROVED"}, headers=headers_new)
         assert resp.status_code == 403
         
         # 4. Admin checks all leaves
@@ -79,6 +79,6 @@ async def test_leaves_endpoints():
         assert len(resp.json()) >= 1
         
         # 5. Admin approves leave
-        resp = await client.put(f"/api/leaves/{leave_id}/status", json={"status": "Approved"}, headers=headers_admin)
+        resp = await client.put(f"/api/leaves/{leave_id}/status", json={"status": "APPROVED"}, headers=headers_admin)
         assert resp.status_code == 200
-        assert resp.json()["status"] == "Approved"
+        assert resp.json()["status"] == "APPROVED"

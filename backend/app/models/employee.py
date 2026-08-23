@@ -24,4 +24,9 @@ class Employee(Base):
     user = relationship("User", foreign_keys=[user_id], uselist=False)
     attendance = relationship("Attendance", back_populates="employee")
     leave_requests = relationship("LeaveRequest", back_populates="employee")
-    payroll = relationship("Payroll", back_populates="employee", uselist=False)
+    # One employee has many payroll snapshots over time (see effective_from).
+    payroll = relationship(
+        "Payroll",
+        back_populates="employee",
+        order_by="Payroll.effective_from.desc()",
+    )
