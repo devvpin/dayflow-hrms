@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ---- Secrets / environment ----
 .env
 .env.local
@@ -39,3 +40,34 @@ Thumbs.db
 *.log
 vite-dev.err
 vite-dev.log
+=======
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+venv/
+.env
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Misc
+*.zip
+>>>>>>> c7f0e5a70a299cd9e90b579c378239f71cd67301
